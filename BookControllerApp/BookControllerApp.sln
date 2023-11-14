@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookControllerApp", "BookControllerApp\BookControllerApp.csproj", "{D1BA4E78-977B-482E-93C6-1894DFFE9F0B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1BA4E78-977B-482E-93C6-1894DFFE9F0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1BA4E78-977B-482E-93C6-1894DFFE9F0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1BA4E78-977B-482E-93C6-1894DFFE9F0B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D1BA4E78-977B-482E-93C6-1894DFFE9F0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1BA4E78-977B-482E-93C6-1894DFFE9F0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1BA4E78-977B-482E-93C6-1894DFFE9F0B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B8BD3F6B-F4F1-4FF2-9FF8-1F38BCDC2AED}
+	EndGlobalSection
+EndGlobal

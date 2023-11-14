@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BookControllerApp.BookControllerPage">
+
+    <ScrollView>
+
+        <VerticalStackLayout
+            VerticalOptions="Center"
+            Padding="80,0,80,0">
+
+            <FlexLayout HorizontalOptions="Center" JustifyContent="SpaceEvenly">
+                <Frame x:Name="LeftIndicator"  BackgroundColor="LightBlue" CornerRadius="5" WidthRequest="100" HeightRequest="100" >
+                    <Label Text="L" HorizontalTextAlignment="Center"  FontSize="50" TextColor="White"/>
+                </Frame>
+
+                <Frame x:Name="RightIndicator" BackgroundColor="LightPink" CornerRadius="5" WidthRequest="100" HeightRequest="100">
+                    <Label Text="R" HorizontalTextAlignment="Center" FontSize="50" TextColor="White"/>
+                </Frame>
+            </FlexLayout>
+
+            <Frame BackgroundColor="LightGray" CornerRadius="5">
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="RecievedData" />
+                    <Label x:Name="RecievedDataLabel" HorizontalOptions="Center"/>
+                </StackLayout>
+            </Frame>
+
+            <Label x:Name="IsListeningLabel" Text="ボタンを押して受信，操作開始"  HorizontalOptions="Center"/>
+
+            <Button
+                x:Name="Recieve"
+                Text="受信開始＆操作開始"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnButtonClicked"
+                HorizontalOptions="Center" />
+
+            <ListView x:Name="CharacteristicListView" HasUnevenRows="true">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <StackLayout>
+                                    <Label Text="{Binding Name, StringFormat='Name:{0}'}" FontAttributes="Bold"/>
+                                </StackLayout>
+                                <StackLayout Padding="10,0,0,0">
+                                    <Label Text="{Binding Id, StringFormat='ID:{0}'}" />
+                                    <Label Text="{Binding Uuid, StringFormat='UUID:{0}'}" />
+                                    <Label Text="{Binding Properties, StringFormat='Properties:{0}'}" />
+                                    <Label Text="{Binding CanRead, StringFormat='CanRead:{0}'}" />
+                                    <Label Text="{Binding CanWrite, StringFormat='CanWrite:{0}'}" />
+                                    <Label Text="{Binding CanUpdate, StringFormat='CanUpdate:{0}'}" />
+                                    <Label Text="{Binding StringValue, StringFormat='StringValue:{0}'}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ListView x:Name="DescriptorListView" HasUnevenRows="true">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <StackLayout>
+                                    <Label Text="{Binding Name, StringFormat='Name:{0}'}" FontAttributes="Bold"/>
+                                </StackLayout>
+                                <StackLayout Padding="10,0,0,0">
+                                    <Label Text="{Binding Id, StringFormat='ID:{0}'}" />
+                                    <Label Text="{Binding Name, StringFormat='Name:{0}'}" />
+                                    <Label Text="{Binding Value, StringFormat='Value:{0}'}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>
