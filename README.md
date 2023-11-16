@@ -7,8 +7,13 @@ git clone git@github.com:trimscash/BookController.git
 ```
 でダウンロードできます．（学校WiFiからだと無理）
 
-BookControllerはマイコン用のプログラム
-BookControllerAppはMAUIのWindowsアプリのプログラムです
+- /BookController
+
+  マイコン用のプログラム
+
+- /BookControllerApp
+
+  MAUIのWindowsアプリのプログラムです
 
 ## BookController用の環境構築（マイコン
 - VSCodeのインストール （https://azure.microsoft.com/ja-jp/products/visual-studio-code
