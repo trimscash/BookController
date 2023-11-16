@@ -22,3 +22,17 @@ git clone git@github.com:trimscash/BookController.git
 ## BookControllerApp用の環境構築 （windowsアプリ
 - VisualStudio2022をインストールしてください．(https://visualstudio.microsoft.com/ja/
 - MAUI（フレームワーク）のインストールとチュートリアル(https://dotnet.microsoft.com/ja-jp/learn/maui/first-app-tutorial/intro
+
+# 開発
+コミットするときはブランチを新たに作ってください．
+
+例えば新しい画面を実装したのならブランチ名は以下のようにしてください．
+以下のように，機能を追加したのならば`add/`をつけてそのあとに`new_sceen`など追加した機能を英語でつけてください．
+```
+add/new_screen
+```
+
+修正したときはすべて`fix`をつけてください．
+```
+fix/new_sceen_bug
+```
