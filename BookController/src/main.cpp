@@ -9,6 +9,12 @@
 #define LEFT_BUTTON 18
 #define RIGHT_BUTTON 5
 
+#define LEFT_LED 33
+#define RIGHT_LED 32
+
+#define RIGHT_SENSOR 16
+#define LEFT_SENSOR 17
+
 #define SERVICE_UUID "da3bb75d-0ea5-43f0-80d0-52fcda5567b5"
 #define CHARACTERISTIC_UUID "118bbbd5-2554-4272-93a3-689dec6d7182"
 #define DEVICE_NAME "BookController "
@@ -17,7 +23,7 @@
 
 BLECharacteristic *pCharacteristic;
 bool deviceConnected = false;
-enum ButtonState {
+enum SensorState {
 	high,
 	low
 };
@@ -46,6 +52,10 @@ void setup() {
 	Serial.begin(115200);
 	pinMode(LEFT_BUTTON, INPUT_PULLDOWN);
 	pinMode(RIGHT_BUTTON, INPUT_PULLDOWN);
+	pinMode(LEFT_LED, OUTPUT);
+	pinMode(RIGHT_LED, OUTPUT);
+	digitalWrite(LEFT_LED, LOW);
+	digitalWrite(RIGHT_LED, LOW);
 
 	BLEDevice::init(DEVICE_NAME + std::string(baseMacChr));
 	BLEServer *pServer = BLEDevice::createServer();
@@ -68,54 +78,76 @@ void setup() {
 	pAdvertising->start();
 }
 
-ButtonState leftChattering() {
+SensorState leftChattering() {
 	static unsigned long last = millis();
-	static ButtonState lastState = ButtonState::low;
+	static SensorState lastState = SensorState::low;
 	if (millis() - last > CHATTERING) {
-		ButtonState nowState = digitalRead(LEFT_BUTTON) == HIGH ? ButtonState::high : ButtonState::low;
+		SensorState nowState = digitalRead(LEFT_SENSOR) == HIGH ? SensorState::high : SensorState::low;
 		if (nowState == lastState) {
 			return nowState;
 		}
 		lastState = nowState;
 		last = millis();
-		return ButtonState::low;
+		return SensorState::low;
 	}
-	return ButtonState::low;
+	return SensorState::low;
 }
 
-ButtonState rightChattering() {
+SensorState rightChattering() {
 	static unsigned long last = millis();
-	static ButtonState lastState = ButtonState::low;
+	static SensorState lastState = SensorState::low;
 	if (millis() - last > CHATTERING) {
-		ButtonState nowState = digitalRead(RIGHT_BUTTON) == HIGH ? ButtonState::high : ButtonState::low;
+		SensorState nowState = digitalRead(RIGHT_SENSOR) == HIGH ? SensorState::high : SensorState::low;
+		// Serial.println(nowState);
 		if (nowState == lastState) {
 			return nowState;
 		}
 		lastState = nowState;
 		last = millis();
-		return ButtonState::low;
+		return SensorState::low;
 	}
-	return ButtonState::low;
+	return SensorState::low;
+}
+
+void sendData(SendData d) {
+	uint8_t send[1] = {d};
+	Serial.println(send[0]);
+	pCharacteristic->setValue(send, sizeof(uint8_t));
+	pCharacteristic->notify();
+	if (SendData::left == d) {
+		digitalWrite(LEFT_LED, HIGH);
+		digitalWrite(RIGHT_LED, LOW);
+	} else {
+		digitalWrite(LEFT_LED, LOW);
+		digitalWrite(RIGHT_LED, HIGH);
+	}
 }
 
 void loop() {
-	static ButtonState prevLeft = ButtonState::low;
-	static ButtonState prevRight = ButtonState::low;
-	ButtonState nowLeft = leftChattering();
-	ButtonState nowRight = rightChattering();
+	static SensorState prevLeft = SensorState::low;
+	static SensorState prevRight = SensorState::low;
+	static bool leftFlag = false;
+	static bool rightFlag = false;
 
-	if (prevLeft == ButtonState::low && nowLeft == ButtonState::high) {
-		uint8_t send[1] = {SendData::left};
-		Serial.println(send[0]);
-		pCharacteristic->setValue(send, sizeof(uint8_t));
-		pCharacteristic->notify();
+	SensorState nowLeft = leftChattering();
+	SensorState nowRight = rightChattering();
+
+	if (prevLeft == SensorState::low && nowLeft == SensorState::high) {
+		if (rightFlag) {
+			sendData(SendData::right);
+			rightFlag = false;
+		} else {
+			leftFlag = true;
+		}
 	}
 
-	if (prevRight == ButtonState::low && nowRight == ButtonState::high) {
-		uint8_t send[1] = {SendData::right};
-		Serial.println(send[0]);
-		pCharacteristic->setValue(send, sizeof(uint8_t));
-		pCharacteristic->notify();
+	if (prevRight == SensorState::low && nowRight == SensorState::high) {
+		if (leftFlag) {
+			sendData(SendData::left);
+			leftFlag = false;
+		} else {
+			rightFlag = true;
+		}
 	}
 
 	prevLeft = nowLeft;
