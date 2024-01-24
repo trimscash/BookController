@@ -23,7 +23,13 @@
                 x:Name="FindButton"
                 Text="コントローラーを探す"
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnButtonClicked"
+                Clicked="OnFindButtonClicked"
+                HorizontalOptions="Center" />
+            <Button
+                x:Name="SettingButton"
+                Text="設定"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnSettingButonClicked"
                 HorizontalOptions="Center" />
 
             <ActivityIndicator  
