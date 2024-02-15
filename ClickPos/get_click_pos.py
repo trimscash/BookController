@@ -1,6 +1,13 @@
 import pygame
 import sys
 from PIL import ImageGrab
+import json
+import time
+import sys
+
+sys.argv
+dirname=sys.argv[1]
+print(dirname)
 
 # スクリーン全体をキャプチャ
 screenshot = ImageGrab.grab()
@@ -14,6 +21,7 @@ screen_info = pygame.display.Info()
 # 画面サイズを取得
 screen_width = screen_info.current_w 
 screen_height = screen_info.current_h
+
 
 # 画面の初期化
 #screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -32,13 +40,54 @@ screen.blit(screenshot_image, (0, 0))
 # 画面をアップデート
 pygame.display.flip()
 
+
+# python get_click_pos.py  -option
+mouse_pos=[{},{}]
+click_count=0
+r=20
+
+font = pygame.font.Font(None, 40)
+text = font.render("Click the back button", True, (255,255,255), (255,0,0))
+screen.blit(text, (screen_width/2-190, 50))
+
+
+pygame.draw.rect(screen, (255,0,0), (0,0,screen_width, screen_height), 10)
+
 # イベントループ
 running = True
 while running:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            print(pos)
+            x,y=pos
+            mouse_pos[click_count]["x"]=x
+            mouse_pos[click_count]["y"]=y
+
+            pygame.draw.ellipse(screen,(255,100,255),(x-r,y-r,2*r,2*r))
+            pygame.draw.rect(screen, (0,0,255), (0,0,1280,960), 10)
+            text = font.render("Click the Forward button", True, (255,255,255), (0,0,255))
+            screen.blit(text, (screen_width/2-190, 50)) 
+
+            print(mouse_pos)
+            click_count=click_count+1
+            
+
+            print(dirname)
+            with open(dirname, mode='w') as f:
+                json.dump(mouse_pos, f, indent=2)
+            
+            
+
+        if click_count == 2:
             running = False
 
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            running = False
+    pygame.display.update()                                 # 画面を更新
+    
+
+time.sleep(1)
 # Pygameの終了
 pygame.quit()
 sys.exit()
