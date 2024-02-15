@@ -65,7 +65,10 @@ while running:
             mouse_pos[setting_items[click_count]]["x"]=x
             mouse_pos[setting_items[click_count]]["y"]=y
 
-            pygame.draw.ellipse(screen,(255,100,255),(x-r,y-r,2*r,2*r))
+            if setting_items[click_count]=="left":
+                pygame.draw.ellipse(screen,(255,0,0),(x-r,y-r,2*r,2*r))
+            if setting_items[click_count]=="right":
+                pygame.draw.ellipse(screen,(0,0,255),(x-r,y-r,2*r,2*r))
 
             pygame.draw.rect(screen, (0,0,255), (0,0,screen_width, screen_height), 10)
             text = font.render("Click the Forward button", True, (255,255,255), (0,0,255))

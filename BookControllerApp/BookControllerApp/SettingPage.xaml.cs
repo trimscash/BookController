@@ -16,7 +16,6 @@ public partial class SettingPage : ContentPage
 {
 
 	private bool isDragging = false;
-	private double _x, _y;
 	private string settingFilePath = "";
 	private string currentPath = "";
 	public SettingPage()
@@ -48,7 +47,7 @@ public partial class SettingPage : ContentPage
 			settingIndicator.IsVisible = false;
 		}
 
-
+		ClickMousePos.GetSettingFromJsonFile();
 	}
 
 
@@ -58,8 +57,8 @@ public partial class SettingPage : ContentPage
 		base.OnAppearing();
 		ClickMousePos.GetSettingFromJsonFile();
 
-		leftPosText.Text = "左のクリック位置: ";
-		rightPosText.Text = "右のクリック位置: ";
+		leftPosText.Text = "左のクリック位置: " + ClickMousePos.left;
+		rightPosText.Text = "右のクリック位置: " + ClickMousePos.right;
 	}
 
 	//	var manager = new ScreenCaptureManager();

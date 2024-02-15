@@ -10,8 +10,8 @@ namespace BookControllerApp.Platforms.Windows
 {
 	public static class ClickMousePos
 	{
-		public static (int, int) left;
-		public static (int, int) right;
+		public static (int x, int y) left;
+		public static (int x, int y) right;
 		public static string settingJsonFilePath = Path.GetTempPath().Replace("\\", "/") + "/get_click_pos.json";
 		public static string currentPath = System.AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/");
 		public static string scriptPath = currentPath + "/../../../../../../../ClickPos/get_click_pos.py";
@@ -20,9 +20,13 @@ namespace BookControllerApp.Platforms.Windows
 		public static void GetSettingFromJsonFile()
 		{
 			var jsontext = File.ReadAllText(settingJsonFilePath);
-			var json = JObject.Parse("{'a':'aa'}");
+			var json = JObject.Parse(jsontext);
 			Debug.WriteLine(json);
+			left.x = Int32.Parse((string)json?["left"]?["x"]);
+			left.y = Int32.Parse((string)json?["left"]?["y"]);
 
+			right.x = Int32.Parse((string)json?["right"]?["x"]);
+			right.y = Int32.Parse((string)json?["right"]?["y"]);
 		}
 
 		public static async Task SettingMousePos()
@@ -37,6 +41,7 @@ namespace BookControllerApp.Platforms.Windows
 			//Debug.WriteLine(currentPath);
 
 			await ExecuteExternalProcess(command, arguments);
+			GetSettingFromJsonFile();
 		}
 
 		private static async Task ExecuteExternalProcess(string fileName, string arguments)

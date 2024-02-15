@@ -10,6 +10,7 @@ using Plugin.BLE;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.Exceptions;
+using BookControllerApp.Platforms.Windows;
 
 namespace BookControllerApp
 {
@@ -36,7 +37,7 @@ namespace BookControllerApp
 			a.Add(characteristic);
 			CharacteristicListView.ItemsSource = a;
 
-			Characteristic.ValueUpdated += async (o, args) => // ボタンが押されたら
+			Characteristic.ValueUpdated += async (o, args) => // コントローラからデータが送られてきたら
 			{
 				await Device.InvokeOnMainThreadAsync(() =>
 				{
@@ -46,16 +47,13 @@ namespace BookControllerApp
 					RecievedDataLabel.Text = dataText;
 					if (data == LEFT)
 					{
-						ClickDisplay(0, 0);
+						ClickDisplay(ClickMousePos.left.x, ClickMousePos.left.y);
 						LeftIndicator.BackgroundColor = Colors.Blue;
 						RightIndicator.BackgroundColor = Colors.LightPink;
 					}
 					else if (data == RIGHT)
 					{
-						int width = (int)DeviceDisplay.Current.MainDisplayInfo.Width;
-						int height = (int)DeviceDisplay.Current.MainDisplayInfo.Height;
-
-						ClickDisplay(width - 100, 0);
+						ClickDisplay(ClickMousePos.right.x, ClickMousePos.right.y);
 						LeftIndicator.BackgroundColor = Colors.LightBlue;
 						RightIndicator.BackgroundColor = Colors.Red;
 					}
@@ -63,6 +61,8 @@ namespace BookControllerApp
 			};
 
 		}
+
+
 
 
 		[DllImport("USER32.dll", CallingConvention = CallingConvention.StdCall)]
@@ -76,6 +76,11 @@ namespace BookControllerApp
 			SetCursorPos(x, y);
 			mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
 			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+		}
+
+		private async void OnSettingButtonClicked(object sender, EventArgs e)
+		{
+			await Navigation.PushAsync(new SettingPage());
 		}
 
 		[Obsolete]
