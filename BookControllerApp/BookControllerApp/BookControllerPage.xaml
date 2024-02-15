@@ -35,6 +35,13 @@
                 Clicked="OnButtonClicked"
                 HorizontalOptions="Center" />
 
+            <Button
+                x:Name="SettingButton"
+                Text="設定"
+                Clicked="OnSettingButtonClicked"
+                HorizontalOptions="Center" />
+
+
             <ListView x:Name="CharacteristicListView" HasUnevenRows="true">
                 <ListView.ItemTemplate>
                     <DataTemplate>
