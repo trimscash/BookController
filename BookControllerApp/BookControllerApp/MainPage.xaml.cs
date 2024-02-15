@@ -53,7 +53,7 @@ namespace BookControllerApp
 
 		}
 
-		private async void OnButtonClicked(object sender, EventArgs e)
+		private async void OnFindButtonClicked(object sender, EventArgs e)
 		{
 			ToggleFindingIndicator(true);
 			DeviceList.Clear();
@@ -63,8 +63,14 @@ namespace BookControllerApp
 
 		}
 
+
+		private async void OnSettingButtonClicked(object sender, EventArgs e)
+		{
+			await Navigation.PushAsync(new SettingPage());
+		}
+
 		[Obsolete]
-		private async void BLEListView_Selected(object sender, SelectedItemChangedEventArgs e)
+		private async void BLEListViewSelected(object sender, SelectedItemChangedEventArgs e)
 		{
 
 			SelectedDevice = e.SelectedItem as IDevice;

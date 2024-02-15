@@ -10,7 +10,7 @@
             <ActivityIndicator  
                 x:Name="connectingIndicator"
                 IsRunning="false" />
-            <ListView x:Name="BLEListView" SeparatorVisibility="Default" ItemSelected="BLEListView_Selected">
+            <ListView x:Name="BLEListView" SeparatorVisibility="Default" ItemSelected="BLEListViewSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding Name}" Detail="{Binding Id}" />
@@ -22,8 +22,12 @@
             <Button
                 x:Name="FindButton"
                 Text="コントローラーを探す"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnButtonClicked"
+                Clicked="OnFindButtonClicked"
+                HorizontalOptions="Center" />
+            <Button
+                x:Name="SettingButton"
+                Text="設定"
+                Clicked="OnSettingButtonClicked"
                 HorizontalOptions="Center" />
 
             <ActivityIndicator  
