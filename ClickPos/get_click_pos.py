@@ -1,3 +1,4 @@
+import os
 import pygame
 import sys
 from PIL import ImageGrab
@@ -46,12 +47,22 @@ mouse_pos=[{},{}]
 click_count=0
 r=20
 
+
+pygame.draw.rect(screen, (255,0,0), (0,0,screen_width, screen_height), 10)
+
+is_file = os.path.isfile(dirname)
+if is_file:
+ #json読み込み
+  json_open = open(dirname, 'r')
+  json_load = json.load(json_open)
+
+  pygame.draw.ellipse(screen,(255,190,255),(json_load[0]['x']-r,json_load[0]['y']-r,2*r,2*r))
+  pygame.draw.ellipse(screen,(255,190,255),(json_load[1]['x']-r,json_load[1]['y']-r,2*r,2*r))
+
 font = pygame.font.Font(None, 40)
 text = font.render("Click the back button", True, (255,255,255), (255,0,0))
 screen.blit(text, (screen_width/2-190, 50))
 
-
-pygame.draw.rect(screen, (255,0,0), (0,0,screen_width, screen_height), 10)
 
 # イベントループ
 running = True
@@ -87,7 +98,7 @@ while running:
     pygame.display.update()                                 # 画面を更新
     
 
-time.sleep(1)
+time.sleep(0.5)
 # Pygameの終了
 pygame.quit()
 sys.exit()
