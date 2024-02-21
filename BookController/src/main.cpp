@@ -19,7 +19,7 @@
 #define CHARACTERISTIC_UUID "118bbbd5-2554-4272-93a3-689dec6d7182"
 #define DEVICE_NAME "BookController "
 
-#define CHATTERING 40
+#define CHATTERING 10
 
 BLECharacteristic *pCharacteristic;
 bool deviceConnected = false;

@@ -42,6 +42,9 @@
                 HorizontalOptions="Center" />
 
 
+            <Label x:Name="leftPosText" Text="" />
+            <Label x:Name="rightPosText" Text="" />
+
             <ListView x:Name="CharacteristicListView" HasUnevenRows="true">
                 <ListView.ItemTemplate>
                     <DataTemplate>
