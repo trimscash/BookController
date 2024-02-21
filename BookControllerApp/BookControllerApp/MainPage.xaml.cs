@@ -8,6 +8,8 @@ using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.Exceptions;
 using Plugin.BLE.Abstractions;
 using System.Collections.ObjectModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Diagnostics;
 
 namespace BookControllerApp
 {
@@ -26,18 +28,6 @@ namespace BookControllerApp
 		[Obsolete]
 		public MainPage()
 		{
-			Ble = CrossBluetoothLE.Current;
-			Adapter = CrossBluetoothLE.Current.Adapter;
-
-			Adapter.ScanTimeout = 5000;
-			Adapter.DeviceDiscovered += async (s, a) =>
-			{
-				await Device.InvokeOnMainThreadAsync(() =>
-				{
-					if (a.Device.Name.Contains(DEVICE_NAME)) { DeviceList.Add(a.Device); }
-				});
-
-			};
 
 			InitializeComponent();
 		}
@@ -53,7 +43,7 @@ namespace BookControllerApp
 
 		}
 
-		private async void OnButtonClicked(object sender, EventArgs e)
+		private async void OnFindButtonClicked(object sender, EventArgs e)
 		{
 			ToggleFindingIndicator(true);
 			DeviceList.Clear();
@@ -63,8 +53,14 @@ namespace BookControllerApp
 
 		}
 
+
+		private async void OnSettingButtonClicked(object sender, EventArgs e)
+		{
+			await Navigation.PushAsync(new SettingPage());
+		}
+
 		[Obsolete]
-		private async void BLEListView_Selected(object sender, SelectedItemChangedEventArgs e)
+		private async void BLEListViewSelected(object sender, SelectedItemChangedEventArgs e)
 		{
 
 			SelectedDevice = e.SelectedItem as IDevice;
@@ -110,6 +106,23 @@ namespace BookControllerApp
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
+
+
+			Ble = CrossBluetoothLE.Current;
+			Adapter = CrossBluetoothLE.Current.Adapter;
+
+			Adapter.ScanTimeout = 5000;
+			Adapter.DeviceDiscovered += async (s, a) =>
+			{
+				await Device.InvokeOnMainThreadAsync(() =>
+				{
+					if (a.Device.Name.Contains(DEVICE_NAME)) { DeviceList.Add(a.Device); }
+				});
+
+			};
+
+			Debug.WriteLine("resetting");
+
 
 			if (SelectedDevice != null)
 			{
