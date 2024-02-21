@@ -62,6 +62,20 @@ namespace BookControllerApp
 
 		}
 
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			ClickMousePos.GetSettingFromJsonFile();
+
+			leftPosText.Text = "左のクリック位置: " + ClickMousePos.left;
+			rightPosText.Text = "右のクリック位置: " + ClickMousePos.right;
+		}
+
+		protected override async void OnDisappearing()
+		{
+			base.OnDisappearing();
+			await Characteristic.StopUpdatesAsync();
+		}
 
 
 
