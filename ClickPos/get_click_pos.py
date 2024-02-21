@@ -5,6 +5,7 @@ from PIL import ImageGrab
 import json
 import time
 import sys
+from tkinter import*
 
 sys.argv
 dirname=sys.argv[1]
@@ -34,9 +35,10 @@ screenshot_size = screenshot.size
 
 screenshot_image= pygame.image.fromstring(screenshot_data, screenshot_size, "RGB")
 
+img = pygame.transform.rotozoom(screenshot_image, 0, screen_width / screenshot_size[0])
 
 # 画像を画面に描画
-screen.blit(screenshot_image, (0, 0))
+screen.blit(img, (0, 0))
 
 # 画面をアップデート
 pygame.display.flip()
@@ -76,7 +78,7 @@ while running:
             mouse_pos[click_count]["y"]=y
 
             pygame.draw.ellipse(screen,(255,100,255),(x-r,y-r,2*r,2*r))
-            pygame.draw.rect(screen, (0,0,255), (0,0,1280,960), 10)
+            pygame.draw.rect(screen, (0,0,255), (0,0,screen_width,screen_height), 10)
             text = font.render("Click the Forward button", True, (255,255,255), (0,0,255))
             screen.blit(text, (screen_width/2-190, 50)) 
 
