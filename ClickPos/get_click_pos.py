@@ -1,9 +1,11 @@
+import os
 import pygame
 import sys
 from PIL import ImageGrab
 import json
 import time
 import sys
+from tkinter import*
 
 sys.argv
 dirname=sys.argv[1]
@@ -33,9 +35,10 @@ screenshot_size = screenshot.size
 
 screenshot_image= pygame.image.fromstring(screenshot_data, screenshot_size, "RGB")
 
+img = pygame.transform.rotozoom(screenshot_image, 0, screen_width / screenshot_size[0])
 
 # 画像を画面に描画
-screen.blit(screenshot_image, (0, 0))
+screen.blit(img, (0, 0))
 
 # 画面をアップデート
 pygame.display.flip()
@@ -47,12 +50,22 @@ setting_items=["left","right"]
 click_count=0
 r=20
 
+
+pygame.draw.rect(screen, (255,0,0), (0,0,screen_width, screen_height), 10)
+
+is_file = os.path.isfile(dirname)
+if is_file:
+ #json読み込み
+  json_open = open(dirname, 'r')
+  json_load = json.load(json_open)
+
+  pygame.draw.ellipse(screen,(255,190,255),(json_load[0]['x']-r,json_load[0]['y']-r,2*r,2*r))
+  pygame.draw.ellipse(screen,(255,190,255),(json_load[1]['x']-r,json_load[1]['y']-r,2*r,2*r))
+
 font = pygame.font.Font(None, 40)
 text = font.render("Click the back button", True, (255,255,255), (255,0,0))
 screen.blit(text, (screen_width/2-190, 50))
 
-
-pygame.draw.rect(screen, (255,0,0), (0,0,screen_width, screen_height), 10)
 
 # イベントループ
 running = True
@@ -71,6 +84,7 @@ while running:
                 pygame.draw.ellipse(screen,(0,0,255),(x-r,y-r,2*r,2*r))
 
             pygame.draw.rect(screen, (0,0,255), (0,0,screen_width, screen_height), 10)
+            
             text = font.render("Click the Forward button", True, (255,255,255), (0,0,255))
             screen.blit(text, (screen_width/2-190, 50)) 
 
@@ -92,7 +106,7 @@ while running:
     pygame.display.update()                                 # 画面を更新
     
 
-time.sleep(1)
+time.sleep(0.5)
 # Pygameの終了
 pygame.quit()
 sys.exit()
