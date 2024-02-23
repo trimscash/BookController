@@ -59,8 +59,9 @@ if is_file:
   json_open = open(dirname, 'r')
   json_load = json.load(json_open)
 
-  pygame.draw.ellipse(screen,(255,190,255),(json_load[0]['x']-r,json_load[0]['y']-r,2*r,2*r))
-  pygame.draw.ellipse(screen,(255,190,255),(json_load[1]['x']-r,json_load[1]['y']-r,2*r,2*r))
+  exist_r=10
+  pygame.draw.ellipse(screen,(255,190,255),(json_load['left']['x']-exist_r,json_load['left']['y']-exist_r,2*exist_r,2*exist_r))
+  pygame.draw.ellipse(screen,(255,190,255),(json_load['right']['x']-exist_r,json_load['right']['y']-exist_r,2*exist_r,2*exist_r))
 
 font = pygame.font.Font(None, 40)
 text = font.render("Click the back button", True, (255,255,255), (255,0,0))
@@ -106,7 +107,7 @@ while running:
     pygame.display.update()                                 # 画面を更新
     
 
-time.sleep(0.5)
+time.sleep(0.8)
 # Pygameの終了
 pygame.quit()
 sys.exit()
